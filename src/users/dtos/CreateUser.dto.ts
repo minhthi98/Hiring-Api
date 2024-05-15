@@ -1,3 +1,5 @@
+import { Department } from "src/typeorm/entities/Department";
+
 export class CreateUserDto{
     name: string;
 
@@ -5,7 +7,7 @@ export class CreateUserDto{
 
     position: string;
 
-    user_role: string;
+    user_role: number;
 
     email: string;
 
@@ -17,5 +19,5 @@ export class CreateUserDto{
 
     join_date:string;
 
-    department: string;
+    department?: Department;
 }

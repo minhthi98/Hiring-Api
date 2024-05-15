@@ -1,10 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { Timekeeping } from "./Timekeeping";
+import { Leave } from "./Leave";
+import { Department } from "./Department";
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity({ name: 'users'})
 export class User {
-    @PrimaryGeneratedColumn({type:"bigint"})
-    id:number;
+    @PrimaryColumn({ length: 20 }) // Đặt độ dài cho mã nhân viên, ví dụ 20 ký tự
+    id: string;
 
     @Column()
     name:string;
@@ -16,7 +19,7 @@ export class User {
     position: string;
 
     @Column()
-    user_role: string;
+    user_role: number; // Kiểu dữ liệu là number
 
     @Column()
     email: string;
@@ -33,8 +36,8 @@ export class User {
     @Column()
     join_date: Date;
 
-    @Column()
-    department: string;
+    @ManyToOne(()=> Department, department => department.user)
+    department: Department;
 
     @Column( {nullable: true})
     team: string;
@@ -51,5 +54,18 @@ export class User {
     @Column()
     createBy: string;
 
+    @OneToMany(() => Leave, (leave) => leave.user)
+    leave: Leave;
 
+    @OneToMany(() => Timekeeping, (timekeeping) => timekeeping.user)
+    timekeeping: Timekeeping;
+
+    // Function to generate employee code
+    @BeforeInsert()
+    async generateEmployeeCode() {
+        // Generate a random number with 5 digits
+        const randomNumber = Math.floor(10000 + Math.random() * 90000).toString().substring(0, 5);
+        // Generate a UUID for the user id
+        this.id = `HR${this.user_role}${randomNumber}`;
+    }
 }

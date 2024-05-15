@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
 
-@Entity({ name: 'deapartment'})
-export class Deapartment {
+@Entity({ name: 'department'})
+export class Department {
     @PrimaryGeneratedColumn({type:"bigint"})
     id:number;
 
@@ -11,4 +12,6 @@ export class Deapartment {
     @Column()
     address:string;
 
+    @OneToMany(() => User, (user) => user.department)
+    user: User;
 }

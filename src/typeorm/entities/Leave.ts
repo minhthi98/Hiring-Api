@@ -1,12 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
 
 @Entity({ name: 'leave'})
 export class Leave {
     @PrimaryGeneratedColumn({type:"bigint"})
     id:number;
-
-    @Column()
-    user_id:string;
 
     @Column()
     leave_date_start:Date;
@@ -22,4 +20,7 @@ export class Leave {
 
     @Column()
     type: string;
+
+    @ManyToOne(()=> User, user => user.leave)
+    user: User;
 }

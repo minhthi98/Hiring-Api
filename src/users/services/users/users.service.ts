@@ -10,14 +10,10 @@ export class UsersService {
         @InjectRepository(User) private userRepostitory: Repository<User>,
     ){}
 
-    findUser(){
-        return this.userRepostitory.find()
-    }
-    createUser(userDetails: CreateUserParams){
-        const newUser = this.userRepostitory.create({
-            ...userDetails,
-            createAt: new Date(),
-        });
-        return this.userRepostitory.save(newUser);
-    }
+
+   async createUser(createUserParams: CreateUserParams) {
+       const user = this.userRepostitory.create(createUserParams);
+       return await this.userRepostitory.save(user);
+   }
+
 }
