@@ -1,6 +1,4 @@
-export class AuthPayloadDto{
-    username: string;
-
-
+export class AuthPayloadDto {
+    phoneNumber: string;
     password: string;
 }

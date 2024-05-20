@@ -1,10 +1,12 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, Unique } from "typeorm";
 import { Timekeeping } from "./Timekeeping";
 import { Leave } from "./Leave";
 import { Department } from "./Department";
-import { v4 as uuidv4 } from 'uuid';
+
 
 @Entity({ name: 'users'})
+@Unique(['phone_number'])
+@Unique(['email'])
 export class User {
     @PrimaryColumn({ length: 20 }) // Đặt độ dài cho mã nhân viên, ví dụ 20 ký tự
     id: string;
@@ -53,6 +55,12 @@ export class User {
 
     @Column()
     createBy: string;
+
+    @Column()
+    updateAt: Date;
+
+    @Column()
+    updateBy: string;
 
     @OneToMany(() => Leave, (leave) => leave.user)
     leave: Leave;

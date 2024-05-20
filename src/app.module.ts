@@ -3,11 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm/entities/User';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './module/users/users.module';
 import { Leave } from './typeorm/entities/Leave';
 import { Timekeeping } from './typeorm/entities/Timekeeping';
 import { Department } from './typeorm/entities/Department';
 import { AuthModule } from './auth/auth.module';
+import { DepartmentsModule } from './module/department/department.module';
 
 @Module({
   imports: [
@@ -15,10 +16,10 @@ import { AuthModule } from './auth/auth.module';
 
     TypeOrmModule.forRoot({
     type: 'mysql',
-    host: '34.168.75.19',
+    host: 'localhost',
     port: 3306,
-    username: 'intern',
-    password: 'intern',
+    username: 'root',
+    password: '',
     database: 'hiring_db',
     entities: [User, Leave, Timekeeping, Department],
     synchronize: true,
@@ -26,7 +27,7 @@ import { AuthModule } from './auth/auth.module';
     
 
     UsersModule,
-    
+    DepartmentsModule,
 
     AuthModule,],
   controllers: [AppController],

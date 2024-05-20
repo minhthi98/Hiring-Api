@@ -15,7 +15,7 @@ export type CreateUserParams ={
 
     gender: string;
 
-    dob: string;
+    dob: Date;
 
     join_date:string;
     

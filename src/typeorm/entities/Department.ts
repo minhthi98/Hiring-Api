@@ -14,4 +14,10 @@ export class Department {
 
     @OneToMany(() => User, (user) => user.department)
     user: User;
+
+    @Column()
+    createAt: Date;
+
+    @Column()
+    createBy: string;
 }
