@@ -11,6 +11,8 @@ export type CreateUserParams ={
 
     email: string;
 
+    team?: string;
+
     address: string;
 
     gender: string;
@@ -19,5 +21,5 @@ export type CreateUserParams ={
 
     join_date:string;
     
-    department?: Department;
+    department?: any;
 }

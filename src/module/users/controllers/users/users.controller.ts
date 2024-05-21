@@ -5,10 +5,11 @@ import { UsersService } from '../../services/users/users.service';
 import { Request } from 'express';
 import { updateUserDto } from 'src/dtos/UpdateUser.dto';
 import { updateUserAdDto } from 'src/dtos/UpdateUserAd.dto';
+import { changePasswordDto } from 'src/dtos/ChangePassword.dto';
 
 @Controller('users')
 export class UsersController {
-    constructor(private userService: UsersService){}
+    constructor(private userService: UsersService) { }
 
 
     @Post('create')
@@ -21,17 +22,34 @@ export class UsersController {
 
     @Post('update')
     @UseGuards(JwtAuthGuard)
-    updateUser(@Body() UserDto: updateUserDto, @Req() req: Request) {
-       const id = (req.user as any).userId;
-        return this.userService.updateUser(id,UserDto);
+    updateUser(@Body() userDto: updateUserDto) {
+        const id = userDto.id;
+
+        return this.userService.updateUser(id, userDto);
     }
     @Post('updateAd')
     @UseGuards(JwtAuthGuard)
-    updateUserAd(@Body() body, @Req() req: Request) {
-        const { id, UserDto } = body;
-        UserDto.updateBy = (req.user as any).userId;
-        UserDto.updateAt = new Date();
-        return this.userService.updateUserAdvanced(id,UserDto);
+    updateUserAd(@Body() userDto: updateUserAdDto, @Req() req: Request) {
+        const id = userDto.id;
+        userDto.updateBy = (req.user as any).userId;
+        userDto.updateAt = new Date();
+        return this.userService.updateUserAdvanced(id, userDto);
     }
-
+    @Get('showAll')
+    @UseGuards(JwtAuthGuard)
+    showAllUsers(@Body() body) {
+        const { any, department, position, status } = body;
+        return this.userService.showAllUsers(any, department, position, status);
+    }
+    @Post('changeStatus')
+    @UseGuards(JwtAuthGuard)
+    changeStatus(@Body() body) {
+        const { id, status } = body;
+        return this.userService.changeStatus(id, status);
+    }
+    @Post('changePassword')
+    @UseGuards(JwtAuthGuard)
+    changePassword(@Body() changePassword: changePasswordDto) {
+        return this.userService.changePassword(changePassword);
+    }
 }

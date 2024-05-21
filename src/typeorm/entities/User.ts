@@ -1,8 +1,8 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, Unique } from "typeorm";
+import { BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryColumn, Unique } from "typeorm";
 import { Timekeeping } from "./Timekeeping";
 import { Leave } from "./Leave";
 import { Department } from "./Department";
-
+import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'users'})
 @Unique(['phone_number'])
@@ -44,7 +44,7 @@ export class User {
     @Column( {nullable: true})
     team: string;
 
-    @Column({default: "1"})
+    @Column({nullable: false})
     password: string;
 
     @Column()
@@ -53,6 +53,9 @@ export class User {
     @Column()
     createAt: Date;
 
+    @Column({default: true})
+    activate: boolean;
+    
     @Column()
     createBy: string;
 
@@ -75,5 +78,13 @@ export class User {
         const randomNumber = Math.floor(10000 + Math.random() * 90000).toString().substring(0, 5);
         // Generate a UUID for the user id
         this.id = `HR${this.user_role}${randomNumber}`;
+    }
+    @BeforeInsert()
+    async hashPassword() {
+        if (!this.password) {
+            this.password = "1";
+        }
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
     }
 }

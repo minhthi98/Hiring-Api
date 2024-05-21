@@ -13,4 +13,5 @@ export class CreateUserDto{
     department?: Department;
     createBy: string;
     createAt: Date;
+    
 }
