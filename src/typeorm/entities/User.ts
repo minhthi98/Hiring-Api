@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 @Unique(['phone_number'])
 @Unique(['email'])
 export class User {
-    @PrimaryColumn({ length: 20 }) // Đặt độ dài cho mã nhân viên, ví dụ 20 ký tự
+    @PrimaryColumn({ length: 20 }) 
     id: string;
 
     @Column()
@@ -38,7 +38,7 @@ export class User {
     @Column()
     join_date: Date;
 
-    @ManyToOne(()=> Department, department => department.user)
+    @ManyToOne(()=> Department, department => department.users)
     department: Department;
 
     @Column( {nullable: true})
@@ -50,7 +50,7 @@ export class User {
     @Column()
     device_id: string;
 
-    @Column()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createAt: Date;
 
     @Column({default: true})
@@ -59,17 +59,17 @@ export class User {
     @Column()
     createBy: string;
 
-    @Column()
+    @Column({ type: 'timestamp', nullable: true })
     updateAt: Date;
 
     @Column()
     updateBy: string;
 
     @OneToMany(() => Leave, (leave) => leave.user)
-    leave: Leave;
+    leave: Leave[];
 
     @OneToMany(() => Timekeeping, (timekeeping) => timekeeping.user)
-    timekeeping: Timekeeping;
+    timekeeping: Timekeeping[];
 
     // Function to generate employee code
     @BeforeInsert()

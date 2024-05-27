@@ -4,7 +4,7 @@ import { User } from "./User";
 @Entity({ name: 'leave'})
 export class Leave {
     @PrimaryGeneratedColumn({type:"bigint"})
-    id:number;
+    id:string;
 
     @Column()
     leave_date_start:Date;
@@ -23,4 +23,10 @@ export class Leave {
 
     @ManyToOne(()=> User, user => user.leave)
     user: User;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    createAt: Date;
+
+    @Column()
+    createBy: string;
 }

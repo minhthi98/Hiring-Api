@@ -3,6 +3,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { DepartmentsService } from './department.service';
 import { CreateDepartmentDto } from 'src/dtos/CreateDepartment.dto';
 import { Request } from 'express';
+import { UpdateDepartmentDto } from 'src/dtos/updateDepartment.dto';
+import { log } from 'console';
 
 @Controller('departments')
 export class departmentsController {
@@ -13,5 +15,21 @@ export class departmentsController {
         createDto.createBy = (req.user as any).userId;
         createDto.createAt = new Date();
     }
+    
+    @Get("all")
+    @UseGuards(JwtAuthGuard)
+    getDepartments(){
+        return this.departmentService.getAllDepartments();
+    }
 
+    @Post("update")
+    @UseGuards(JwtAuthGuard)
+    updateDepartment(@Body()department: UpdateDepartmentDto, @Req() req: Request){
+        const id = department.id;
+        department.updateBy = (req.user as any).userId;
+        department.updateAt = new Date();
+        console.log('Update By:', department.updateBy);
+        console.log('Update At:', department.updateAt);
+        return this.departmentService.updateDepartment(id, department);
+    }
 }

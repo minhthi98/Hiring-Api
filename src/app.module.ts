@@ -9,11 +9,11 @@ import { Timekeeping } from './typeorm/entities/Timekeeping';
 import { Department } from './typeorm/entities/Department';
 import { AuthModule } from './auth/auth.module';
 import { DepartmentsModule } from './module/department/department.module';
+import { LeaveModule } from './module/leave/leave.module';
+import { TimeKeepingModule } from './module/timeKeeping/timeKeeping.module';
 
 @Module({
   imports: [
-    
-
     TypeOrmModule.forRoot({
     type: 'mysql',
     host: 'localhost',
@@ -24,11 +24,11 @@ import { DepartmentsModule } from './module/department/department.module';
     entities: [User, Leave, Timekeeping, Department],
     synchronize: true,
   }),
-    
-
+  // modules
     UsersModule,
     DepartmentsModule,
-
+    LeaveModule,
+    TimeKeepingModule,
     AuthModule,],
   controllers: [AppController],
   providers: [AppService],

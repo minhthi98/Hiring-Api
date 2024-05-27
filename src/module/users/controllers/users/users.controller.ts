@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateUserDto } from 'src/dtos/CreateUser.dto';
 import { UsersService } from '../../services/users/users.service';
@@ -20,7 +20,7 @@ export class UsersController {
         return this.userService.createUser(createUserDto);
     }
 
-    @Post('update')
+    @Patch('update')
     @UseGuards(JwtAuthGuard)
     updateUser(@Body() userDto: updateUserDto) {
         const id = userDto.id;
@@ -35,7 +35,7 @@ export class UsersController {
         userDto.updateAt = new Date();
         return this.userService.updateUserAdvanced(id, userDto);
     }
-    @Get('showAll')
+    @Post('showAll')
     @UseGuards(JwtAuthGuard)
     showAllUsers(@Body() body) {
         const { any, department, position, status } = body;

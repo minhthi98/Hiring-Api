@@ -51,7 +51,8 @@ export class UsersService {
 
             if (!createUserParams.address) throw new HttpException("Vui lý nhap dia chi người dùng", HttpStatus.NOT_FOUND);
             const user = this.userRepository.create(createUserParams);
-            return await this.userRepository.save(user);
+            const save= await this.userRepository.save(user);
+            return { result: true, data: "đã tạo người dùng thanh cong", user: save};
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
         }

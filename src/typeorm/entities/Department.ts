@@ -4,7 +4,7 @@ import { User } from "./User";
 @Entity({ name: 'department'})
 export class Department {
     @PrimaryGeneratedColumn({type:"bigint"})
-    id:number;
+    id:string;
 
     @Column()
     name:string;
@@ -13,11 +13,17 @@ export class Department {
     address:string;
 
     @OneToMany(() => User, (user) => user.department)
-    user: User;
+    users: User[];
 
-    @Column()
+    @Column({ type: 'timestamp' })
     createAt: Date;
 
     @Column()
     createBy: string;
+
+    @Column({ type: 'timestamp', nullable: true })
+    updateAt: Date;
+
+    @Column()
+    updateBy: string;
 }
