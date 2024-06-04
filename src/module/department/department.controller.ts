@@ -4,7 +4,7 @@ import { DepartmentsService } from './department.service';
 import { CreateDepartmentDto } from 'src/dtos/CreateDepartment.dto';
 import { Request } from 'express';
 import { UpdateDepartmentDto } from 'src/dtos/updateDepartment.dto';
-import { log } from 'console';
+
 
 @Controller('departments')
 export class departmentsController {
@@ -14,6 +14,7 @@ export class departmentsController {
     newDepartment(@Body()createDto: CreateDepartmentDto, @Req() req: Request){
         createDto.createBy = (req.user as any).userId;
         createDto.createAt = new Date();
+        return this.departmentService.createDepartment(createDto);
     }
     
     @Get("all")
@@ -28,8 +29,6 @@ export class departmentsController {
         const id = department.id;
         department.updateBy = (req.user as any).userId;
         department.updateAt = new Date();
-        console.log('Update By:', department.updateBy);
-        console.log('Update At:', department.updateAt);
         return this.departmentService.updateDepartment(id, department);
     }
 }

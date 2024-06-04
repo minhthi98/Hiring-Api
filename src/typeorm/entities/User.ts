@@ -50,11 +50,11 @@ export class User {
     @Column()
     device_id: string;
 
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-    createAt: Date;
-
     @Column({default: true})
     activate: boolean;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    createAt: Date;
     
     @Column()
     createBy: string;

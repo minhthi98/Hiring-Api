@@ -29,4 +29,10 @@ export class Leave {
 
     @Column()
     createBy: string;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    updateAt: Date;
+
+    @Column()
+    updateBy: string;
 }
